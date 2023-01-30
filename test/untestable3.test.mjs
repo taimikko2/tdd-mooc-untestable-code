@@ -32,7 +32,7 @@ describe("Untestable 3: CSV file parsing", () => {
       expect(res).to.deep.equal([{firstName: "Jaska",
         lastName: "Jokunen",
         age: 6,
-        gender: "Male"}]);
+        gender: "male"}]);
       //expect.not.error;
     } catch (e) {
       console.error("Virhe "+e);
