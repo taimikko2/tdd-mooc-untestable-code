@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { diceHandValue } from "../src/untestable2.mjs";
+import { diceHandValue , diceRoll} from "../src/untestable2.mjs";
 
 function distinctNumbers(amount) {
   const distinct = new Set();
@@ -23,9 +23,10 @@ describe("Untestable 2: a dice game", () => {
         expect(diceHandValue(2,2)).to.be.equal(102);
   });
 
-  xit("diceRoll gives values netween 1 and 6", () => {
+  it("diceRoll gives values netween 1 and 6", () => {
     const numbers = distinctNumbers(100);
     expect(numbers.size).to.equal(6);
     // expect them all be between 1 and 6
+    //expect(numbers).deep.contain.all(1,2,3,4,5,6);
   });
 });
