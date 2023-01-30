@@ -11,11 +11,12 @@ export async function parsePeopleCsv(filePath) {
     const person = {
       firstName,
       lastName,
-      gender: gender.charAt(0).toLowerCase(),
+      gender //: gender.charAt(0).toLowerCase(),
     };
     if (age !== "") {
       person.age = parseInt(age);
     }
+    console.log("luetaan "+person.firstName+" "+person.lastName+" "+person.age+" "+person.gender+"\n!"); /*+" "+person.gender*/
     return person;
   });
 }
