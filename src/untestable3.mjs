@@ -16,7 +16,6 @@ export async function parsePeopleCsv(filePath) {
     if (age !== "") {
       person.age = parseInt(age);
     }
-    console.log("luetaan "+person.firstName+" "+person.lastName+" "+person.age+" "+person.gender+"\n!"); /*+" "+person.gender*/
     return person;
   });
 }
