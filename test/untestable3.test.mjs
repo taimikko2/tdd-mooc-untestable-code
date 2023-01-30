@@ -1,4 +1,4 @@
-import { expect } from "chai";
+import { expect, assert } from "chai";
 import { parsePeopleCsv } from "../src/untestable3.mjs";
 import { writeFile } from "node:fs/promises";
 
@@ -33,12 +33,27 @@ describe("Untestable 3: CSV file parsing", () => {
         lastName: "Jokunen",
         age: 6,
         gender: "m"}]);
-      //expect.not.error;
     } catch (e) {
       console.error("Virhe "+e);
-      console.log("Vikaa: "+e.firstName+" "+e.lastName+" "+e.age+" "+e.gender);
     }
   });
+
+  it("noes not accept wrong result (gender should be 'm' not 'Male')", async () => {
+    try {
+      let res = await parsePeopleCsv("untestable3.csv");
+      res.forEach (function(value, key) {
+        console.log("for each "+ JSON.stringify(key) + ' = ' + JSON.stringify(value));
+      })
+      expect(res).to.deep.equal([{firstName: "Jaska",
+        lastName: "Jokunen",
+        age: 6,
+        gender: "Male"}]);
+      assert.doesNotThrow(parsePeopleCsv, AssertionError);
+    } catch (e) {
+      console.error("Virhe "+e);
+    }
+  });
+
 
   xit("can parse several people", async () => {
     // TODO: write proper tests
