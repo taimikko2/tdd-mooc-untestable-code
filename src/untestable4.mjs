@@ -34,10 +34,12 @@ export class PostgresUserDao {
        where user_id = $1`,
       [userId]
     );
+    console.log("getById("+userId+") "+JSON.stringify(rows.map(this.rowToUser)[0] || "{ei löytynyt}"));
     return rows.map(this.rowToUser)[0] || null;
   }
 
   async save(user) {
+    console.log("saving user "+JSON.stringify(user));
     await this.db.query(
       `insert into users (user_id, password_hash)
        values ($1, $2)
