@@ -18,7 +18,9 @@ export class PostgresUserDao {
     return this.instance;
   }
 
-  // lukee ympäristömuuttujia
+  // TODO:lukee ympäristömuuttujia
+  // TODO: porttien numerot
+
   db = new pg.Pool({
     user: "untestable", //process.env.PGUSER,
     host: "127.0.0.1", //process.env.PGHOST,
