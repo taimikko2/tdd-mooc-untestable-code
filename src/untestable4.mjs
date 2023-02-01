@@ -8,15 +8,23 @@ export class PostgresUserDao {
     if (!this.instance) {
       this.instance = new PostgresUserDao();
     }
+    let tmp = this.db;
+    console.log("postgres DB "+JSON.stringify(tmp));
+    console.log("user: "+process.env.PGUSER);
+    console.log("host: "+process.env.PGHOST);
+    console.log("database: "+process.env.PGDATABASE);
+    console.log("password: "+process.env.PGPASSWORD);
+    console.log("port: "+process.env.PGPORT);
     return this.instance;
   }
 
+  // lukee ympäristömuuttujia
   db = new pg.Pool({
-    user: process.env.PGUSER,
-    host: process.env.PGHOST,
-    database: process.env.PGDATABASE,
-    password: process.env.PGPASSWORD,
-    port: process.env.PGPORT,
+    user: "untestable", //process.env.PGUSER,
+    host: "127.0.0.1", //process.env.PGHOST,
+    database: "untestable", //process.env.PGDATABASE,
+    password: "secret", //process.env.PGPASSWORD,
+    port: 5432, //process.env.PGPORT,
   });
 
   close() {

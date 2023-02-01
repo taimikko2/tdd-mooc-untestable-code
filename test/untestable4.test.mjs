@@ -17,7 +17,7 @@ describe("Untestable 4: enterprise application", () => {
   it("save user and get user back from db", async () => {
     users = service.users;
    await users.save(user);
-   console.log("käyttäjiä: "+JSON.stringify(users));
+   //console.log("käyttäjiä: "+JSON.stringify(users));
 //   expect(await users.getById(1)).to.deep.equal(user);
 
   });
