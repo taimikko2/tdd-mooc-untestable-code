@@ -79,7 +79,8 @@ export class PasswordService {
     let tmp;
     //tmp = argon2.verifySync(user.passwordHash, oldPassword);
     //tmp = argon2.hashSync(oldPassword, this.salt);
-    console.log("vaihtamassa "+user.passwordHash+" "+ oldPassword+" sync "+tmp);
+    tmp = oldPassword == user.passwordHash; 
+    console.log("vaihtamassa\n"+user.passwordHash+"\n"+ oldPassword+"\nsync "+tmp);
     if (!argon2.verifySync(user.passwordHash, oldPassword)) {
       throw new Error("wrong old password");
     }
