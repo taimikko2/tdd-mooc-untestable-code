@@ -2,14 +2,17 @@ import argon2 from "@node-rs/argon2";
 import pg from "pg";
 
 export class PostgresUserDao {
+  static db;
 
-  db = new pg.Pool({
-    user: "untestable", //process.env.PGUSER,
-    host: "127.0.0.1", //process.env.PGHOST,
-    database: "untestable", //process.env.PGDATABASE,
-    password: "secret", //process.env.PGPASSWORD,
-    port: 5432, //process.env.PGPORT,
-  });
+  constructor(host = "127.0.0.1", database = "untestable", port = 5432, user = "untestable", password = "secret") {
+    this.db = new pg.Pool({
+      user: user, // "untestable", 
+      host: host, // "127.0.0.1", 
+      database: database, // "untestable", 
+      password: password, //"secret", 
+      port: port, // 5432, 
+    });
+  }
 
   close() {
     console.log("closing DB: " + JSON.stringify(this.db.options));
