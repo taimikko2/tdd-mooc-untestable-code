@@ -2,18 +2,6 @@ import argon2 from "@node-rs/argon2";
 import pg from "pg";
 
 export class PostgresUserDao {
-  static instance;
-
-  static getInstance() {
-    return new PostgresUserDao();
-    if (!this.instance) {
-      this.instance = new PostgresUserDao();
-    }
-    return this.instance;
-  }
-
-  // TODO:lukee ympäristömuuttujia
-  // TODO: porttien numerot
 
   db = new pg.Pool({
     user: "untestable", //process.env.PGUSER,
@@ -61,7 +49,7 @@ export class PostgresUserDao {
 }
 
 export class PasswordService {
-  users = PostgresUserDao.getInstance();
+  users = new PostgresUserDao();
 
   async changePassword(userId, oldPassword, newPassword) {
     const user = await this.users.getById(userId);

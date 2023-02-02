@@ -3,15 +3,18 @@ import { PasswordService, PostgresUserDao } from "../src/untestable4.mjs";
 
 describe("Untestable 4: enterprise application", () => {
   let service;
+  let pgDao;
   let users;
   const user = { userId: 1, passwordHash: "kissa" };
   const user2 = { userId: 2, passwordHash: "koira" };
   beforeEach(() => {
+    pgDao = new PostgresUserDao();
     service = new PasswordService();
   });
 
   afterEach(() => {
-    PostgresUserDao.getInstance().close();
+    //pgDao.close();
+    service.users.close();
   });
 
   it("save user and get user back from db", async () => {
