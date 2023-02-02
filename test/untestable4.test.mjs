@@ -3,12 +3,11 @@ import { PasswordService, PostgresUserDao } from "../src/untestable4.mjs";
 
 describe("Untestable 4: enterprise application", () => {
   let service;
-  let pgDao;
-  let users;
+  //let pgDao;
   const user = { userId: 1, passwordHash: "kissa" };
   const user2 = { userId: 2, passwordHash: "koira" };
   beforeEach(() => {
-    pgDao = new PostgresUserDao();
+    //pgDao = new PostgresUserDao();
     service = new PasswordService();
   });
 
@@ -18,16 +17,12 @@ describe("Untestable 4: enterprise application", () => {
   });
 
   it("save user and get user back from db", async () => {
-    // console.log("user: "+process.env.POSTGRES_USER);
-    // console.log("password: "+process.env.POSTGRES_PASSWORD);
     await service.users.save(user);
-    //console.log("viedään käyttäjä: " + JSON.stringify(user));
     let u2 = await service.users.getById(1);
-    //console.log("saadaan käyttäjä: " + JSON.stringify(u2));
     expect(u2).to.deep.equal(user);
   });
 
-  xit("change password", async () => {
+  it("change password", async () => {
     await service.users.save(user);
     //console.log("viedään käyttäjä: " + JSON.stringify(user));
     const newPassword = "changed "+user.passwordHash;

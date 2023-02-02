@@ -6,21 +6,15 @@ export class PostgresUserDao {
 
   constructor(host = "127.0.0.1", database = "untestable", port = 5432, user = "untestable", password = "secret") {
     this.db = new pg.Pool({
-      user: user, // "untestable", 
-      host: host, // "127.0.0.1", 
-      database: database, // "untestable", 
-      password: password, //"secret", 
-      port: port, // 5432, 
+      user: user, 
+      host: host, 
+      database: database, 
+      password: password, 
+      port: port,  
     });
   }
 
   close() {
-    console.log("closing DB: " + JSON.stringify(this.db.options));
-    // var propValue;
-    // for (var propName in this.db) {
-    //   propValue = this.db[propName];
-    //   console.log(propName, propValue);
-    // }
     this.db.end();
   }
 
@@ -35,12 +29,10 @@ export class PostgresUserDao {
        where user_id = $1`,
       [userId]
     );
-    console.log("getById(" + userId + ") " + JSON.stringify(rows.map(this.rowToUser)[0] || "{ei löytynyt}"));
     return rows.map(this.rowToUser)[0] || null;
   }
 
   async save(user) {
-    console.log("saving user " + JSON.stringify(user));
     await this.db.query(
       `insert into users (user_id, password_hash)
        values ($1, $2)
