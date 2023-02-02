@@ -48,6 +48,7 @@ export class PasswordService {
 
   async changePassword(userId, oldPassword, newPassword) {
     const user = await this.users.getById(userId);
+    console.log("vaihtamassa "+user.passwordHash+" "+ oldPassword);
     if (!argon2.verifySync(user.passwordHash, oldPassword)) {
       throw new Error("wrong old password");
     }

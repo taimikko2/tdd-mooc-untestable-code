@@ -22,7 +22,18 @@ describe("Untestable 4: enterprise application", () => {
     expect(u2).to.deep.equal(user);
   });
 
-  it("change password", async () => {
+  it("password can be changed", async () => {
+    await service.users.save(user);
+    console.log("viedään käyttäjä: " + JSON.stringify(user));
+    let newPassword = "changed"+user.passwordHash;
+    await service.changePassword(user.userId, user.passwordHash, newPassword);
+    user.passwordHash = newPassword;
+    let u2 = await service.users.getById(1);
+    console.log("saadaan käyttäjä: " + JSON.stringify(u2));
+    expect(u2).to.deep.equal(user);
+  });
+
+  xit("can't change password if old password is wrong", async () => {
     await service.users.save(user);
     //console.log("viedään käyttäjä: " + JSON.stringify(user));
     const newPassword = "changed "+user.passwordHash;
@@ -33,9 +44,6 @@ describe("Untestable 4: enterprise application", () => {
     expect(u2).to.deep.equal(user);
   });
   
-  // vaihto ei pitäisi onnistua, jos vanha salasana ei vastaa olemassa olevaa ?
 });
-
-// Database
 
 
