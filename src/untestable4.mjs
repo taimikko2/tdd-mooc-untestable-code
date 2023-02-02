@@ -47,10 +47,10 @@ export class PostgresUserDao {
 
 export class PasswordService {
   users = new PostgresUserDao();
-  //static salt = argon2.generateSaltSync();
   salt; // = argon2.generateSaltSync();
 
   constructor(salt="suolaa, suolaa, enemmän suolaa.") {
+    console.log("PasswordService constructor salt "+salt);
     this.salt = salt;
   }
 
@@ -78,8 +78,7 @@ export class PasswordService {
     const user = await this.users.getById(userId);
     let tmp;
     //tmp = argon2.verifySync(user.passwordHash, oldPassword);
-    //tmp = await argon2.verify(oldPassword, oldPassword);
-    tmp = argon2.hashSync(oldPassword, this.salt);
+    //tmp = argon2.hashSync(oldPassword, this.salt);
     console.log("vaihtamassa "+user.passwordHash+" "+ oldPassword+" sync "+tmp);
     if (!argon2.verifySync(user.passwordHash, oldPassword)) {
       throw new Error("wrong old password");
