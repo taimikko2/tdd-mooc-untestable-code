@@ -15,6 +15,8 @@ describe("Untestable 4: enterprise application", () => {
   });
 
   it("save user and get user back from db", async () => {
+    // console.log("user: "+process.env.POSTGRES_USER);
+    // console.log("password: "+process.env.POSTGRES_PASSWORD);
     await service.users.save(user);
     //console.log("viedään käyttäjä: " + JSON.stringify(user));
     let u2 = await service.users.getById(1);
@@ -37,3 +39,5 @@ describe("Untestable 4: enterprise application", () => {
 });
 
 // Database
+
+

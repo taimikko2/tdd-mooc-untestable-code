@@ -5,16 +5,10 @@ export class PostgresUserDao {
   static instance;
 
   static getInstance() {
+    return new PostgresUserDao();
     if (!this.instance) {
       this.instance = new PostgresUserDao();
     }
-    let tmp = this.db;
-    console.log("postgres DB "+JSON.stringify(tmp));
-    console.log("user: "+process.env.PGUSER);
-    console.log("host: "+process.env.PGHOST);
-    console.log("database: "+process.env.PGDATABASE);
-    console.log("password: "+process.env.PGPASSWORD);
-    console.log("port: "+process.env.PGPORT);
     return this.instance;
   }
 
@@ -30,6 +24,12 @@ export class PostgresUserDao {
   });
 
   close() {
+    console.log("closing DB: " + JSON.stringify(this.db.options));
+    // var propValue;
+    // for (var propName in this.db) {
+    //   propValue = this.db[propName];
+    //   console.log(propName, propValue);
+    // }
     this.db.end();
   }
 
@@ -44,12 +44,12 @@ export class PostgresUserDao {
        where user_id = $1`,
       [userId]
     );
-    console.log("getById("+userId+") "+JSON.stringify(rows.map(this.rowToUser)[0] || "{ei löytynyt}"));
+    console.log("getById(" + userId + ") " + JSON.stringify(rows.map(this.rowToUser)[0] || "{ei löytynyt}"));
     return rows.map(this.rowToUser)[0] || null;
   }
 
   async save(user) {
-    console.log("saving user "+JSON.stringify(user));
+    console.log("saving user " + JSON.stringify(user));
     await this.db.query(
       `insert into users (user_id, password_hash)
        values ($1, $2)
