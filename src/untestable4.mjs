@@ -33,8 +33,6 @@ export class PostgresUserDao {
   }
 
   async save(user) {
-    //console.log("savessa excluded "+excluded.password_hash);
-    console.log("argon2.defaults "+argon2.defaults);
     await this.db.query(
       `insert into users (user_id, password_hash)
        values ($1, $2)
@@ -50,24 +48,20 @@ export class PasswordService {
   salt; // = argon2.generateSaltSync();
 
   constructor(salt="suolaa, suolaa, enemmän suolaa.") {
-    console.log("PasswordService constructor salt "+salt);
     this.salt = salt;
   }
 
   async save(user) {
-    // TODO: salasanalle hashSync ennen talletusta
     await this.users.save(user);
   }
 
   async getById(userId) {
     let user = await this.users.getById(userId);
-    // TODO: userille vielä salasanan purku ennen palautusta?
     return user;
   }
 
   async hashPassword(word) {
-    let tmp = argon2.hashSync(word, this.salt);
-    return tmp;
+    return argon2.hashSync(word, this.salt);
   }
 
   async verifyHash(hash, word) {
@@ -76,16 +70,10 @@ export class PasswordService {
 
   async changePassword(userId, oldPassword, newPassword) {
     const user = await this.users.getById(userId);
-    let tmp;
-    //tmp = argon2.verifySync(user.passwordHash, oldPassword);
-    //tmp = argon2.hashSync(oldPassword, this.salt);
-    tmp = oldPassword == user.passwordHash; 
-    console.log("vaihtamassa\n"+user.passwordHash+"\n"+ oldPassword+"\nsync "+tmp);
     if (!argon2.verifySync(user.passwordHash, oldPassword)) {
       throw new Error("wrong old password");
-    }
+    } 
     user.passwordHash = argon2.hashSync(newPassword);
-    console.log("vanha salasana on sama, asetetaan uusi");
     await this.users.save(user);
   }
 }
