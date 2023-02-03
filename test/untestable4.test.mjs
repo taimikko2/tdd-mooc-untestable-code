@@ -32,26 +32,28 @@ describe("Untestable 4: enterprise application", () => {
     const pwd = "koira";
     const newPwd = "toinen " + pwd;
     user2.passwordHash = await service.hashPassword(pwd);
-    const newHash = await service.hashPassword(newPwd);
 
     await service.save(user2);
     await service.changePassword(user2.userId, pwd, newPwd);
     let userChanged = await service.getById(user2.userId);
-    expect(userChanged.userId).to.equal(user2.userId); 
+    expect(userChanged.userId).to.equal(user2.userId);
     expect(await service.verifyHash(userChanged.passwordHash, newPwd)).to.be.true;
   });
 
   it("can't change password if old password is wrong", async () => {
     const pwd = "koira";
     const newPwd = "toinen " + pwd;
-    user2.passwordHash = await service.hashPassword(pwd);
-    const newHash = await service.hashPassword(newPwd);
+    try {
+      user2.passwordHash = await service.hashPassword(pwd);
 
-    await service.save(user2);
-    await service.changePassword(user2.userId, "kissa", newPwd);
+      await service.save(user2);
+      await service.changePassword(user2.userId, "kissa", newPwd);
+    } catch (e) {
+      expect(e).to.exist;
+      //console.log("ERROR: " + e);
+    }
     let userChanged = await service.getById(user2.userId);
-    // virheilmoitus
-    expect(userChanged.userId).to.equal(user2.userId); 
+    expect(userChanged.userId).to.equal(user2.userId);
     expect(await service.verifyHash(userChanged.passwordHash, newPwd)).to.be.false;
   });
 });
